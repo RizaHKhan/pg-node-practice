@@ -3,6 +3,7 @@ import userController from "./userController.js";
 const { Router } = express;
 const router = Router();
 
-router.route("/").post(userController.addUser).get(userController.getUsers);
+router.route("/").get(userController.getUsers);
+router.route("/register").post(userController.registerUser);
 router.route("/:email").delete(userController.deleteUserByEmail);
 export default router;

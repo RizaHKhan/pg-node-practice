@@ -1,9 +1,18 @@
-import User from "./User.js";
+import UserDAO from "./User.js";
+import bcrypt from "bcrypt";
+
+const saltRounds = 10;
+
+export class User {
+  async comparePassword(plainText) {
+    return await bcrypt.compare(plainText, this.password);
+  }
+}
 
 export default class userController {
-  static async addUser(req, res) {
+  static async registerUser(req, res) {
     try {
-      const results = await User.addUser(req.body);
+      const results = await UserDAO.registerUser(req.body);
 
       if (results.success) {
         res.send({ success: true });
@@ -15,7 +24,7 @@ export default class userController {
 
   static async getUsers(req, res) {
     try {
-      const { rows: users } = await User.getUsers();
+      const { rows: users } = await UserDAO.getUsers();
       console.table(users);
       res.send(users);
     } catch (e) {
@@ -26,7 +35,7 @@ export default class userController {
   static async deleteUserByEmail(req, res) {
     try {
       const { email } = req.params;
-      await User.deleteUserByEmail(email);
+      await UserDAO.deleteUserByEmail(email);
       res.status(200).json({ success: true });
     } catch (e) {
       res.status(400).json({ error: e });

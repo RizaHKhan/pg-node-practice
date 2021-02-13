@@ -1,7 +1,7 @@
 import pool from "./db.js";
 
-export default class User {
-  static async addUser(user) {
+export default class UserDAO {
+  static async registerUser(user) {
     const { email, firstName, lastName, age } = user;
     try {
       const query = `
