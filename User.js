@@ -23,6 +23,18 @@ export default class UserDAO {
     }
   }
 
+  static async getUser(email) {
+    try {
+      const query = `
+        SELECT * FROM users WHERE email = '${email}';
+      `;
+
+      return await pool.query(query);
+    } catch (e) {
+      return { error: e };
+    }
+  }
+
   static async deleteUserByEmail(email) {
     try {
       const query = `
