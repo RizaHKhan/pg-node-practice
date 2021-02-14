@@ -1,14 +1,11 @@
 import pool from "./db.js";
 
 export default class UserDAO {
-  static async registerUser(user) {
-    const { email, firstName, lastName, age } = user;
+  static async registerUser(email, password, username) {
     try {
       const query = `
-        INSERT INTO users VALUES
-        ('${email}', '${firstName}', '${lastName}', ${age});
-        `;
-
+        INSERT INTO users(email, username, password) VALUES('${email}', '${username}', '${password}');
+      `;
       await pool.query(query);
       return { success: true };
     } catch (e) {
@@ -18,7 +15,7 @@ export default class UserDAO {
 
   static async getUsers() {
     try {
-      const query = ` SELECT * FROM users;
+      const query = `SELECT * FROM users;
         `;
       return await pool.query(query);
     } catch (e) {

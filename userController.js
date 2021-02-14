@@ -12,7 +12,9 @@ export class User {
 export default class userController {
   static async registerUser(req, res) {
     try {
-      const results = await UserDAO.registerUser(req.body);
+      const { email, username, password } = req.body;
+      const hash = bcrypt.hashSync(password, saltRounds);
+      const results = await UserDAO.registerUser(email, hash, username);
 
       if (results.success) {
         res.send({ success: true });
